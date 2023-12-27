@@ -19,7 +19,7 @@ OBJS	=	$(SRCS:.c=.o)
 GCC		=	gcc
 RM		=	rm -f
 CFLAGS	=	-Wall -Wextra -Werror -I.
-NAME	=	libftpush_swap.a
+NAME	=	libft.a
 
 all:		$(NAME)
 
