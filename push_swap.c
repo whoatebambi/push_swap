@@ -92,71 +92,64 @@ static long	ft_atol(char *str)
 	return (n * sign);
 }
 
-void	ft_lstadd_back(t_stack **lst, t_stack *new)
-{
-	t_stack	*temp;
-
-	if (lst == NULL || new == NULL)
-		return ;
-	if (*lst == NULL)
-	{
-		*lst = new;
-		return ;
-	}
-	temp = *lst;
-	while (temp->next)
-		temp = temp->next;
-	temp->next = new;
-}
-
-int	stack_len(t_stack *lst)
+int	stack_len(t_stack *stack)
 {
 	int	i;
 
 	i = 0;
-	while (lst != NULL)
+	while (stack != NULL)
 	{
-		lst = lst->next;
+		stack = stack->next;
 		i++;
 	}
 	return (i);
 }
 
-static void	swap(t_stack **lst)
+t_stack	*find_last(t_stack *stack)
 {
-	t_stack	*head;
-	t_stack	*second;
-	int		tmp_nbr;
-
-	head = *lst;
-	second = head->next;
-	tmp_nbr = head->nbr;
-	head->nbr = second->nbr;
-	second->nbr = tmp_nbr;
+	if (!stack)
+		return (NULL);
+	while (stack->next)
+		stack = stack->next;
+	return (stack);
 }
-//Check if the stop node, or second node of a stack exists
-//Update `head` to point to the next node, effectively swapping the first and second nodes
-//Update the `prev` pointer of the node before the `new head` to point to the `new head`
-//Update the `next` pointer of the node before the `new head` to skip the `old head` and point directly to the `new head`
-//Check if there's a `next` node after the `new head` and
-//If so, update its `prev` pointer to point back to the `new head`
-//Update the `next` pointer of the `new head` to point to the `old head`, effectively reversing their positions
-//Sets the `prev` pointer of the `new head` to `NULL` completing the swap
 
-void	sa(t_stack **lst)
+void swap(t_stack **stack)
 {
-	swap(lst);
+	t_stack *first;
+	t_stack *second;
+
+	if (*stack == NULL || (*stack)->next == NULL)
+		return ;
+	first = *stack;
+	second = (*stack)->next;
+
+	first->next = second->next;  // Set the first node's next to the third node
+	second->prev = first->prev;  // Set the second node's prev to NULL (as it will become the new head)
+	first->prev = second;        // Set the first node's prev to the second node
+	second->next = first;        // Set the second node's next to the first node
+	// Adjust the third node's prev pointer, if it exists
+	if (first->next) {
+		first->next->prev = first;
+	}
+	// Update the head of the list
+	*stack = second;
+}
+
+void	sa(t_stack **stack)
+{
+	swap(stack);
 	printf("sa\n");
 }
 
-void	free_stack(t_stack **lst)
+void	free_stack(t_stack **stack)
 {
 	t_stack	*current;
 	t_stack	*tmp;
 
-	if (!lst)
+	if (!stack)
 		return;
-	current = *lst;
+	current = *stack;
 	while (current)
 	{
 		tmp = current->next;
@@ -164,7 +157,7 @@ void	free_stack(t_stack **lst)
 		free(current);
 		current = tmp;
 	}
-	*lst = NULL;
+	*stack = NULL;
 	exit(1);	
 }
 
@@ -198,13 +191,25 @@ int	error_duplicate(t_stack *a, int n)
 void	append_node(t_stack **a, int n)
 {
 	t_stack	*current;
+	t_stack	*last;
 
 	current = malloc(sizeof(t_stack));
 	if (current == NULL)
 		free_stack(a);
 	current->nbr = n;
 	current->next = NULL;
-	ft_lstadd_back(a, current);
+
+	if (*a == NULL)
+	{
+		*a = current;
+		current->prev = NULL;
+	}
+	else
+	{
+		last = find_last(*a);
+		last->next = current;
+		current->prev = last;
+	}
 }
 
 int	stack_sorted(t_stack *a)
@@ -273,7 +278,6 @@ int	main(int argc, char **argv)
 	}
 	else if (argc == 2)
 		split_array  = split(argv[1], ' ');
-	// manage if result of split = 1
 	else
 	{
 		i = 1;
@@ -284,23 +288,23 @@ int	main(int argc, char **argv)
 		}
 	}
 	init_stack_a(&a, split_array);
-	print_stack_a(a);
-	printf("Stack length: %d\n", stack_len(a));
+	// print_stack_a(a);
+	// printf("Stack length: %d\n", stack_len(a));
 	if (stack_sorted(a) == 0)
 	{
-		printf("Stack not sorted.\n");
+		// printf("Stack not sorted.\n");
 		if (stack_len(a) == 2)
 		{
 			sa(&a);
-			print_stack_a(a);
+			// print_stack_a(a);
 		}
 		// else if (stack_len == 3)
 		// 	sort_three(&a);
 		// else
 		// 	sort_stacks(&a, &b);
 	}
-	else
-		printf("Stack sorted.");
+	// else
+	// 	printf("Stack sorted.");
 	free_stack(&a);
 	return (0);
 }
