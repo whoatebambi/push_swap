@@ -10,27 +10,27 @@
 #                                                                              #
 # **************************************************************************** #
 
-
-
-SRCS	=	push_swap.c \
+SRCS	=	push_swap.c split.c \
 
 OBJS	=	$(SRCS:.c=.o)
 
-GCC		=	gcc
-RM		=	rm -f
+CC		=	gcc
 CFLAGS	=	-Wall -Wextra -Werror -I.
-NAME	=	libft.a
+NAME	=	push_swap
 
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
 			ar rcs $(NAME) $(OBJS)
 
+%.o: %.c
+	$(CC) -c $(CFLAGS) $?
+
 clean:
-			$(RM) $(OBJS)
+			rm -f $(OBJS)
 
 fclean:		clean
-			$(RM) $(NAME)
+			rm -f $(NAME)
 
 re:			fclean all
 

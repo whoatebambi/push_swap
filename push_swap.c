@@ -1,215 +1,16 @@
 #include "push_swap.h"
 
-int	count_words(char *str, char sep)
+void	sort_three(t_stack **a)
 {
-	int	word_count;
-	int	i;
+	t_stack *biggest;
 
-	word_count = 0;
-	i = 0;
-	while (str[i])
-	{
-		while (str[i] == sep)
-			i++;
-		if ((str[i] != sep) && str[i])
-			word_count++;
-		while ((str[i] != sep) && str[i])
-			i++;
-	}
-	return (word_count);
-}
-
-static char	*get_next_word(char *str, char sep)
-{
-	char		*word;
-	static int	cursor;
-	int			i;
-	int			len;
-
-	len = 0;
-	while (str[cursor] == sep)
-		cursor++;
-	while ((str[cursor + len] != sep) && str[cursor + len])
-		len++;
-	word = malloc(sizeof(char) * (len + 1));
-	if (word == NULL)
-		return (NULL);
-	i = 0;
-	while (str[cursor] != sep && str[cursor])	
-	{
-		word[i] = str[cursor];
-		i++;
-		cursor++;
-	}
-	word[i] = '\0';
-	return (word);
-}
-
-char	**split(char *str, char sep)
-{
-	int		word_count;
-	char	**result;
-	int		i;
-
-	word_count = count_words(str, sep);
-	if (word_count == 0)
-		return (0);
-	result = malloc(sizeof(char *) * (word_count + 1));
-	if (result == NULL)
-		return (NULL);
-	i = 0;
-	while (i < word_count)
-	{
-		result[i] = get_next_word(str, sep);
-		i++;
-	}
-	result[i] = NULL;
-	return (result);
-}
-
-static long	ft_atol(char *str)
-{
-	long		n;
-	int			sign;
-	int			i;
-	
-	sign = 1;
-	i = 0;
-	n = 0;
-	// while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
-	// 	i++;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			sign = -1;
-		i++;
-	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		n = n * 10 + (str[i] - '0');
-		i++;
-	}
-	return (n * sign);
-}
-
-int	stack_len(t_stack *stack)
-{
-	int	i;
-
-	i = 0;
-	while (stack != NULL)
-	{
-		stack = stack->next;
-		i++;
-	}
-	return (i);
-}
-
-t_stack	*find_last(t_stack *stack)
-{
-	if (!stack)
-		return (NULL);
-	while (stack->next)
-		stack = stack->next;
-	return (stack);
-}
-
-void swap(t_stack **stack)
-{
-	t_stack *first;
-	t_stack *second;
-
-	if (*stack == NULL || (*stack)->next == NULL)
-		return ;
-	first = *stack;
-	second = (*stack)->next;
-
-	first->next = second->next;  // Set the first node's next to the third node
-	second->prev = first->prev;  // Set the second node's prev to NULL (as it will become the new head)
-	first->prev = second;        // Set the first node's prev to the second node
-	second->next = first;        // Set the second node's next to the first node
-	// Adjust the third node's prev pointer, if it exists
-	if (first->next) {
-		first->next->prev = first;
-	}
-	// Update the head of the list
-	*stack = second;
-}
-
-void	sa(t_stack **stack)
-{
-	swap(stack);
-	printf("sa\n");
-}
-
-void	free_stack(t_stack **stack)
-{
-	t_stack	*current;
-	t_stack	*tmp;
-
-	if (!stack)
-		return;
-	current = *stack;
-	while (current)
-	{
-		tmp = current->next;
-		// current->nbr = 0;
-		free(current);
-		current = tmp;
-	}
-	*stack = NULL;
-	exit(1);	
-}
-
-int	error_syntax(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[i] == '+' || str[i] == '-')
-        i++;
-    while (str[i])
-    {
-        if (!(str[i] >= '0' && str[i] <= '9'))
-            return (1);
-        i++;
-    }
-	return (0);
-}
-
-int	error_duplicate(t_stack *a, int n)
-{
-	while (a != NULL)
-	{
-		if (a->nbr == n)
-			return (1);
-		a = a->next;
-	}
-	return (0);
-}
-
-void	append_node(t_stack **a, int n)
-{
-	t_stack	*current;
-	t_stack	*last;
-
-	current = malloc(sizeof(t_stack));
-	if (current == NULL)
-		free_stack(a);
-	current->nbr = n;
-	current->next = NULL;
-
-	if (*a == NULL)
-	{
-		*a = current;
-		current->prev = NULL;
-	}
-	else
-	{
-		last = find_last(*a);
-		last->next = current;
-		current->prev = last;
-	}
+	biggest = find_max(*a);
+	if (*a == biggest)
+		ra(a);
+	else if ((*a)->next == biggest)
+		rra(a);
+	if ((*a)->nbr > (*a)->next->nbr)
+		sa(a);
 }
 
 int	stack_sorted(t_stack *a)
@@ -261,6 +62,135 @@ void	print_stack_a(t_stack *a)
 	}
 }
 
+void	sort_stacks(t_stack **a, t_stack **b)
+{
+	int	len_a;
+
+	len_a = stack_len(a);
+	if (len_a > 3 && stack_sorted(a) == 0)
+	{
+		pb(&b, &a);
+		len_a--;
+	}
+	if (len_a > 3 && stack_sorted(a) == 0)
+	{
+		pb(&b, &a);
+		len_a--;
+	}
+	while (len_a > 3 && stack_sorted(a) == 0)
+	{
+		init_nodes_a(*a, *b);
+		move_a_to_b(a, b);
+	}
+	sort_three(a);
+	while (*b)
+	{
+		init_nodes_b(*a, *b);
+		move_b_to_a(a, b);
+	}
+	current_index(a);
+	min_on_top(a);
+}
+
+void	init_nodes_a(t_stack *a, t_stack *b)
+{
+	current_index(a);
+	current_index(b);
+	set_target_a(a, b);
+	cost_analysis_a(a, b);
+	set_cheapest(a);
+}
+
+void	current_index(t_stack **stack)
+{
+	t_stack	*current; // try to remove * one ponter level and use only stack
+	int		i;
+	int		median;
+
+	i = 0;
+	median = stack_len(stack) / 2;
+	current = *stack;
+	while (current != NULL)
+	{
+		current->index = i;
+		if (i <= median)
+			current->above_median = true; // why not only < and not = ? compare performance
+		else
+			current->above_median = false;
+		current = current->next;
+		i++;
+	}
+}
+
+void	set_target_a(t_stack *a, t_stack *b)
+{
+	t_stack *current_b;
+	t_stack	*target_node;
+	long	best_match_index;
+
+	best_match_index = LONG_MIN;
+	while (a)
+	{
+		current_b = b;
+		while (current_b)
+		{
+			if (current_b->nbr < a->nbr && current_b->nbr > best_match_index)
+			{
+				best_match_index = current_b->nbr;
+				target_node = current_b;
+			}	
+			current_b = current_b->next;
+		}
+		if (best_match_index = LONG_MIN)
+			a->target_node = find_max(b);
+		else
+			a->target_node = target_node;
+		a = a->next;
+	}
+}
+
+void	cost_analysis_a(t_stack *a, t_stack *b)
+{
+	int	len_a;
+	int	len_b;
+
+	len_a = stack_len(a);
+	len_b = stack_len(b);
+	while (a)
+	{
+		a->push_cost = a->index;
+		if (a->above_median == false)
+			a->push_cost = len_a - (a->index);
+		if (a->target_node->above_median == true)
+			a->push_cost += a->target_node->index;
+		else
+			a->push_cost += len_b - (a->target_node->index);
+		a = a->next;
+	}
+}
+
+void	set_cheapest(t_stack *stack)
+{
+	long	cheapest_value;
+	t_stack	*cheapest_node;
+
+	cheapest_value = LONG_MAX;
+	while (stack != NULL)
+	{
+		if (stack->push_cost < cheapest_value)
+		{
+			cheapest_value = stack->push_cost;
+			cheapest_node = stack;
+		}
+		stack = stack->next;
+	}
+	cheapest_node->cheapest = true;
+}
+void	move_a_to_b(t_stack **a, t_stack **b)
+{
+	
+}
+
 int	main(int argc, char **argv)
 {
 	t_stack	*a;
@@ -270,6 +200,7 @@ int	main(int argc, char **argv)
 
 	a = NULL;
 	b = NULL;
+	split_array = NULL;
 
 	if (argc == 1 || (argc == 2 && argv[1] == NULL))
 	{
@@ -288,23 +219,23 @@ int	main(int argc, char **argv)
 		}
 	}
 	init_stack_a(&a, split_array);
-	// print_stack_a(a);
-	// printf("Stack length: %d\n", stack_len(a));
-	if (stack_sorted(a) == 0)
+	print_stack_a(a);
+	while (stack_sorted(a) == 0)
 	{
-		// printf("Stack not sorted.\n");
+		printf("Stack not sorted.\n");
 		if (stack_len(a) == 2)
-		{
 			sa(&a);
-			// print_stack_a(a);
-		}
-		// else if (stack_len == 3)
-		// 	sort_three(&a);
-		// else
-		// 	sort_stacks(&a, &b);
+		else if (stack_len(a) == 3)
+			sort_three(&a);
+		else
+			sort_stacks(&a, &b);
 	}
-	// else
-	// 	printf("Stack sorted.");
+
+	if (stack_sorted(a) == 1)
+	{
+		printf("Stack sorted.\n");
+		print_stack_a(a);
+	}
 	free_stack(&a);
 	return (0);
 }
