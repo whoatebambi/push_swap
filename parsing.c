@@ -23,7 +23,7 @@ int	count_words(char *str, char sep)
 	return (word_count);
 }
 
-static char	*get_next_word(char *str, char sep)
+char	*get_next_word(char *str, char sep)
 {
 	char		*word;
 	static int	cursor;
@@ -54,10 +54,10 @@ char	**split(char *str, char sep)
 	int		word_count;
 	char	**result;
 	int		i;
-
 	word_count = count_words(str, sep);
 	if (word_count == 0)
 		return (0);
+	
 	result = malloc(sizeof(char *) * (word_count + 1));
 	if (result == NULL)
 		return (NULL);

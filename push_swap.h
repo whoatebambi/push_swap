@@ -6,7 +6,7 @@
 /*   By: fcouserg <fcouserg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 14:33:43 by fcouserg          #+#    #+#             */
-/*   Updated: 2023/11/23 17:47:57 by fcouserg         ###   ########.fr       */
+/*   Updated: 2024/01/01 17:57:46 by fcouserg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,27 @@ typedef struct s_stack
 
 
 // parsing
-int			count_words(char *str, char sep);
-static char	*get_next_word(char *str, char sep);
 char		**split(char *str, char sep);
+int			count_words(char *str, char sep);
+char		*get_next_word(char *str, char sep);
 int			error_syntax(char *str);
 int			error_duplicate(t_stack *a, int n);
 long		ft_atol(char *str);
 
 // push_swap
-
+void	init_nodes_a(t_stack *a, t_stack *b);
+void	move_a_to_b(t_stack **a, t_stack **b);
+void	move_b_to_a(t_stack **a, t_stack **b);
+void	current_index(t_stack *stack);
+void	min_on_top(t_stack **a);
+void	set_target_a(t_stack *a, t_stack *b);
+void	cost_analysis_a(t_stack *a, t_stack *b);
+void	set_cheapest(t_stack *stack);
+void	init_nodes_b(t_stack *a, t_stack *b);
+void	rotate_both(t_stack **a, t_stack **b, t_stack *cheapest_node);
+void	rev_rotate_both(t_stack **a, t_stack **b, t_stack *cheapest_node);
+void	prep_for_push(t_stack **stack, t_stack *top_node, char stack_name);
+void	set_target_b(t_stack *a, t_stack *b);
 
 // commands
 void 	swap(t_stack **stack);
@@ -67,6 +79,7 @@ void	pb(t_stack **b, t_stack **a);
 int		stack_len(t_stack *stack);
 t_stack	*find_last(t_stack *stack);
 t_stack	*find_max(t_stack *stack);
+t_stack	*find_min(t_stack *stack);
 void	append_node(t_stack **a, int n);
 void	free_stack(t_stack **stack);
 
