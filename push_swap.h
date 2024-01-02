@@ -40,6 +40,7 @@ char		*ft_itoa(int n);
 int			s_intlen(unsigned int nbr);
 int			s_isneg(int n);
 int			ft_strcmp(const char *s1, const char *s2);
+void		free_array(char **array);
 
 // push_swap
 void	init_nodes_a(t_stack *a, t_stack *b);

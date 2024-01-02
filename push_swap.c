@@ -283,46 +283,56 @@ void	check_errors(char **array)
 {
 	int		i;
 	int		nb;
-	
+	char	*str;
+    
 	i = 0;
 	while (array[i])
 	{
 		if (error_syntax(array[i]) == 1)
 		{
-			free(array);
+			// free_array(array);
 			ft_error();
 		}
 		nb = ft_atoi(array[i]);
-		if (ft_strcmp(ft_itoa(nb), array[i]) != 0)
+		str = ft_itoa(nb);
+		if (ft_strcmp(str, array[i]) != 0)
 		{
-			free(array);
+			// free_array(array);
+			free(str);
 			ft_error();
 		}
+		free(str);
 		if (error_duplicate(array, nb, i) == 1)
 		{
-			free(array);
+			// free_array(array);
 			ft_error();
 		}
 		i++;
 	}
 }
 
-t_stack	*argc_two(char **argv)
+t_stack *argc_two(char **argv)
 {
-	t_stack	*a;
-	char	**array;
+    t_stack *a;
+    char    **array;
 
-	a = NULL;
-	array = ft_split(argv[1], ' ');
-	if (*array == NULL)
-	{
-		free (array);
-		ft_error();
-	}
-	check_errors(array);
-	append_stack(&a, array);
-	free(array);
-	return (a);
+    a = NULL;
+    array = ft_split(argv[1], ' ');
+    if (*array == NULL)
+    {
+        free (array);
+        ft_error();
+    }
+    check_errors(array);
+    append_stack(&a, array);
+    // int i = 0;
+    // while (array[i])
+    // {
+    //     free(array[i]);
+    //     i++;
+    // }
+    // free(array);
+    return (a);
 }
 
 t_stack	*argc_more(int argc, char **argv)
@@ -345,7 +355,7 @@ t_stack	*argc_more(int argc, char **argv)
 	array[i] = NULL;
 	check_errors(array);
 	append_stack(&a, array);
-	free(array);
+	// free_array(array);
 	return (a);
 }
 
