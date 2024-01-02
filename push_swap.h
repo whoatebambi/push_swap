@@ -14,10 +14,9 @@
 # define PUSH_SWAP_H
 
 #include <unistd.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
-#include <stdbool.h>
+#include <stdbool.h> //
 
 typedef struct s_stack
 {
@@ -31,14 +30,16 @@ typedef struct s_stack
 	struct s_stack	*prev;
 }	t_stack;
 
-
 // parsing
-char		**split(char *str, char sep);
-int			count_words(char *str, char sep);
-char		*get_next_word(char *str, char sep);
+char		**ft_split(char const *s, char c);
 int			error_syntax(char *str);
-int			error_duplicate(t_stack *a, int n);
-long		ft_atol(char *str);
+int			error_duplicate(char **array, int nb, int i);
+int			ft_atoi(char *str);
+void		ft_error(void);
+char		*ft_itoa(int n);
+int			s_intlen(unsigned int nbr);
+int			s_isneg(int n);
+int			ft_strcmp(const char *s1, const char *s2);
 
 // push_swap
 void	init_nodes_a(t_stack *a, t_stack *b);
@@ -54,6 +55,8 @@ void	rotate_both(t_stack **a, t_stack **b, t_stack *cheapest_node);
 void	rev_rotate_both(t_stack **a, t_stack **b, t_stack *cheapest_node);
 void	prep_for_push(t_stack **stack, t_stack *top_node, char stack_name);
 void	set_target_b(t_stack *a, t_stack *b);
+void	ft_sort(t_stack **a);
+t_stack	*ft_process(int argc, char **argv);
 
 // commands
 void 	swap(t_stack **stack);
@@ -82,6 +85,7 @@ t_stack	*find_max(t_stack *stack);
 t_stack	*find_min(t_stack *stack);
 void	append_node(t_stack **a, int n);
 void	free_stack(t_stack **stack);
+void	append_stack(t_stack **a, char **array);
 
 
 #endif

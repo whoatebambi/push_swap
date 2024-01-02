@@ -24,44 +24,6 @@ int	stack_sorted(t_stack *a)
 	return (1);
 }
 
-void	init_stack_a(t_stack **a, char **split_array)
-{
-	int		i;
-	long	n;
-	
-	i = 0;
-	while (split_array[i])
-	{
-		if (error_syntax(split_array[i]) == 1)
-		{
-			printf("Syntax error.\n");
-			free_stack(a);
-		}
-		n = ft_atol(split_array[i]);
-		if (n < INT_MIN || n > INT_MAX)
-		{
-			printf("Int overflow error.\n");
-			free_stack(a);
-		}
-		if (error_duplicate(*a, n) == 1)
-		{
-			printf("Duplicates error.\n");
-			free_stack(a);
-		}
-		append_node(a, (int)n);
-		i++;
-	}
-}
-
-void	print_stack_a(t_stack *a)
-{
-	while (a != NULL)
-	{
-		printf("%d\n", a->nbr);
-		a = a->next;
-	}
-}
-
 void	sort_stacks(t_stack **a, t_stack **b)
 {
 	int	len_a;
@@ -195,7 +157,6 @@ t_stack	*get_cheapest(t_stack *stack)
 	}
 	return (NULL);
 }
-
 ///////////////////////////////////
 void	move_a_to_b(t_stack **a, t_stack **b)
 {
@@ -300,51 +261,124 @@ void	min_on_top(t_stack **a) //Define a function that moves the smallest number 
 	}
 }
 
+void	ft_sort(t_stack **a)
+{
+	t_stack	*b;
+
+	b = NULL;
+	while (stack_sorted(*a) == 0)
+	{
+		if (stack_len(*a) == 2)
+			sa(a);
+		else if (stack_len(*a) == 3)
+			sort_three(a);
+		else
+			sort_stacks(a, &b);
+	}
+}
+
+void	check_errors(char **array)
+{
+	int		i;
+	int		nb;
+	
+	i = 0;
+	while (array[i])
+	{
+		if (error_syntax(array[i]) == 1)
+		{
+			free(array);
+			ft_error();
+		}
+		nb = ft_atoi(array[i]);
+		if (ft_strcmp(ft_itoa(nb), array[i]) != 0)
+		{
+			free(array);
+			ft_error();
+		}
+		if (error_duplicate(array, nb, i) == 1)
+		{
+			free(array);
+			ft_error();
+		}
+		i++;
+	}
+}
+
+t_stack	*argc_two(char **argv)
+{
+	t_stack	*a;
+	char	**array;
+
+	a = NULL;
+	array = ft_split(argv[1], ' ');
+	if (*array == NULL)
+	{
+		free (array);
+		ft_error();
+	}
+	check_errors(array);
+	append_stack(&a, array);
+	free (array);
+	return (a);
+}
+
+t_stack	*argc_more(int argc, char **argv)
+{
+	t_stack	*a;
+	int		i;	
+	char	**array;
+
+	a = NULL;
+	i = 0;
+	array = malloc(sizeof(char *) * argc);
+	if (array == NULL)
+		return (NULL);
+	while (argc > 1)
+	{
+		array[i] = argv[i + 1];
+		i++;
+		argc--;
+	}
+	array[i] = NULL;
+	// init_stack_a(&a, array);
+	check_errors(array);
+	append_stack(&a, array);
+	free (array);
+	return (a);
+}
+
+t_stack	*ft_process(int argc, char **argv)
+{
+	t_stack	*a;
+
+	a = NULL;
+	if (argc < 2)
+		ft_error();
+	if (argc == 2)
+		a = argc_two(argv);
+	if (argc > 2)
+		a = argc_more(argc, argv);
+	return (a);
+}
+// #include <stdio.h> 
+// void	print_stack_a(t_stack *a)
+// {
+// 	while (a != NULL)
+// 	{
+// 		printf("%d\n", a->nbr);
+// 		a = a->next;
+// 	}
+// }
+
 int	main(int argc, char **argv)
 {
 	t_stack	*a;
-	t_stack	*b;
-	char	**split_array;
-	int		i;
 
-	if (argc == 1 || (argc == 2 && argv[1] == NULL))
-		return (printf("Error\n"), -1);
-	a = NULL;
-	b = NULL;
-	split_array = NULL;
-	if (argc == 2)
-		split_array = split(argv[1], ' ');
-
-	i = 0;
-	if (argc > 2)
-	{
-		printf("argc = %d\n", argc);
-		split_array = malloc(sizeof(char *) * argc);
-		while (argc > 1)
-		{
-			split_array[i] = argv[i + 1];
-			i++;
-			argc--;
-		}
-		split_array[i] = NULL;
-	}
-	init_stack_a(&a, split_array);
-	print_stack_a(a);
-	while (stack_sorted(a) == 0)
-	{
-		printf("Stack not sorted.\n");
-		if (stack_len(a) == 2)
-			sa(&a);
-		else if (stack_len(a) == 3)
-			sort_three(&a);
-		else
-			sort_stacks(&a, &b);
-	}
-	if (stack_sorted(a) == 1)
-	{
-		printf("Stack sorted.\n");
-		print_stack_a(a);
-	}
+	a = ft_process(argc, argv);
+	// print_stack_a(a);
+	if (stack_sorted(a) == 0)
+		ft_sort(&a);
 	free_stack(&a);
 	return (0);
 }

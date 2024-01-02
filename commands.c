@@ -25,20 +25,20 @@ void swap(t_stack **stack)
 void	sa(t_stack **a)
 {
 	swap(a);
-	printf("sa\n");
+	write (1, "sa\n", 3);
 }
 
 void	sb(t_stack **b)
 {
 	swap(b);
-	printf("sb\n");
+	write (1, "sb\n", 3);
 }
 
 void	ss(t_stack **a, t_stack **b)
 {
 	swap(a);
 	swap(b);
-	printf("ss\n");
+	write (1, "ss\n", 3);
 }
 
 void	rotate(t_stack **stack)
@@ -62,20 +62,20 @@ void	rotate(t_stack **stack)
 void	ra(t_stack **a)
 {
 	rotate(a);
-	printf("ra\n");
+	write (1, "ra\n", 3);
 }
 
 void	rb(t_stack **b)
 {
 	rotate(b);
-	printf("rb\n");
+	write (1, "rb\n", 3);
 }
 
 void	rr(t_stack **a, t_stack **b)
 {
 	rotate(a);
 	rotate(b);
-	printf("rr\n");
+	write (1, "rr\n", 3);
 }
 
 void	rev_rotate(t_stack **stack)
@@ -95,20 +95,20 @@ void	rev_rotate(t_stack **stack)
 void	rra(t_stack **a)
 {
 	rev_rotate(a);
-	printf("rra\n");
+	write (1, "rra\n", 4);
 }
 
 void	rrb(t_stack **b)
 {
 	rev_rotate(b);
-	printf("rrb\n");
+	write (1, "rrb\n", 4);
 }
 
 void	rrr(t_stack **a, t_stack **b)
 {
 	rev_rotate(a);
 	rev_rotate(b);
-	printf("rrr\n");
+	write (1, "rrr\n", 4);
 }
 
 void	push(t_stack **dst, t_stack **src) //Define a function that pushes a top node, from one stack to another's top node
@@ -139,11 +139,11 @@ void	push(t_stack **dst, t_stack **src) //Define a function that pushes a top no
 void	pa(t_stack **a, t_stack **b) //Push on top of `b`, the top `a` and print the instruction
 {
 	push(a, b); 
-	printf("pa\n");
+	write (1, "pa\n", 3);
 }
 
 void	pb(t_stack **b, t_stack **a) //Push on top of `a`, the top `b` and print the instruction
 {
 	push(b, a);
-	printf("pb\n");
+	write (1, "pb\n", 3);
 }

@@ -88,6 +88,34 @@ void	append_node(t_stack **a, int n)
 	}
 }
 
+void	append_stack(t_stack **a, char **array)
+{
+	t_stack	*current;
+	t_stack	*last;
+	int	 i = 0;
+
+	while (array[i])
+	{
+		current = malloc(sizeof(t_stack));
+		if (current == NULL)
+			free_stack(a);
+		current->nbr = ft_atoi(array[i]);
+		current->next = NULL;
+		if (*a == NULL)
+		{
+			*a = current;
+			current->prev = NULL;
+		}
+		else
+		{
+			last = find_last(*a);
+			last->next = current;
+			current->prev = last;
+		}
+		i++;
+	}
+}
+
 void	free_stack(t_stack **stack)
 {
 	t_stack	*current;
@@ -99,10 +127,25 @@ void	free_stack(t_stack **stack)
 	while (current)
 	{
 		tmp = current->next;
-		// current->nbr = 0;
+		current->nbr = 0;
 		free(current);
 		current = tmp;
 	}
 	*stack = NULL;
-	exit(1);	
+	// exit(1);	
 }
+
+// void	ft_free(t_stack **lst)
+// {
+// 	t_stack	*tmp;
+
+// 	if (!lst)
+// 		return ;
+// 	while (*lst)
+// 	{
+// 		tmp = (*lst)->next;
+// 		(*lst)->nbr = 0;
+// 		free(*lst);
+// 		*lst = tmp;
+// 	}
+// }
