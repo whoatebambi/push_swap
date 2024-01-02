@@ -57,6 +57,7 @@ void	prep_for_push(t_stack **stack, t_stack *top_node, char stack_name);
 void	set_target_b(t_stack *a, t_stack *b);
 void	ft_sort(t_stack **a);
 t_stack	*ft_process(int argc, char **argv);
+int		stack_sorted(t_stack *a);
 
 // commands
 void 	swap(t_stack **stack);

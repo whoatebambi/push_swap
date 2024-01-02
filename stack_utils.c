@@ -64,29 +64,27 @@ t_stack	*find_min(t_stack *stack) //Define a function that searches a stack and 
 }
 
 
-void	append_node(t_stack **a, int n)
-{
-	t_stack	*current;
-	t_stack	*last;
-
-	current = malloc(sizeof(t_stack));
-	if (current == NULL)
-		free_stack(a);
-	current->nbr = n;
-	current->next = NULL;
-
-	if (*a == NULL)
-	{
-		*a = current;
-		current->prev = NULL;
-	}
-	else
-	{
-		last = find_last(*a);
-		last->next = current;
-		current->prev = last;
-	}
-}
+// void	append_node(t_stack **a, int n)
+// {
+// 	t_stack	*current;
+// 	t_stack	*last;
+// 	current = malloc(sizeof(t_stack));
+// 	if (current == NULL)
+// 		free_stack(a);
+// 	current->nbr = n;
+// 	current->next = NULL;
+// 	if (*a == NULL)
+// 	{
+// 		*a = current;
+// 		current->prev = NULL;
+// 	}
+// 	else
+// 	{
+// 		last = find_last(*a);
+// 		last->next = current;
+// 		current->prev = last;
+// 	}
+// }
 
 void	append_stack(t_stack **a, char **array)
 {

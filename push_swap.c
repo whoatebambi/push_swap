@@ -51,7 +51,6 @@ void	sort_stacks(t_stack **a, t_stack **b)
 		move_b_to_a(a, b);
 	}
 	current_index(*a);
-	min_on_top(a);
 }
 
 void	init_nodes_a(t_stack *a, t_stack *b)
@@ -273,7 +272,10 @@ void	ft_sort(t_stack **a)
 		else if (stack_len(*a) == 3)
 			sort_three(a);
 		else
+		{
 			sort_stacks(a, &b);
+			min_on_top(a);
+		}
 	}
 }
 
@@ -319,7 +321,7 @@ t_stack	*argc_two(char **argv)
 	}
 	check_errors(array);
 	append_stack(&a, array);
-	free (array);
+	free(array);
 	return (a);
 }
 
@@ -341,10 +343,9 @@ t_stack	*argc_more(int argc, char **argv)
 		argc--;
 	}
 	array[i] = NULL;
-	// init_stack_a(&a, array);
 	check_errors(array);
 	append_stack(&a, array);
-	free (array);
+	free(array);
 	return (a);
 }
 
