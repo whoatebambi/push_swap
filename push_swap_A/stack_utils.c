@@ -22,15 +22,6 @@ t_stack	*find_last(t_stack *stack)
 	return (stack);
 }
 
-t_stack	*find_before_last(t_stack *stack)
-{
-	if (!stack)
-		return (NULL);
-	while (stack->next->next)
-		stack = stack->next;
-	return (stack);
-}
-
 t_stack	*find_max(t_stack *stack)
 {
 	t_stack	*max_node;
@@ -72,14 +63,35 @@ t_stack	*find_min(t_stack *stack) //Define a function that searches a stack and 
 	return (min_node); 
 }
 
+
+// void	append_node(t_stack **a, int n)
+// {
+// 	t_stack	*current;
+// 	t_stack	*last;
+// 	current = malloc(sizeof(t_stack));
+// 	if (current == NULL)
+// 		free_stack(a);
+// 	current->nbr = n;
+// 	current->next = NULL;
+// 	if (*a == NULL)
+// 	{
+// 		*a = current;
+// 		current->prev = NULL;
+// 	}
+// 	else
+// 	{
+// 		last = find_last(*a);
+// 		last->next = current;
+// 		current->prev = last;
+// 	}
+// }
+
 void	append_stack(t_stack **a, char **array)
 {
 	t_stack	*current;
 	t_stack	*last;
 	int	 i = 0;
 
-	if (a == NULL || array == NULL)
-		return ;
 	while (array[i])
 	{
 		current = malloc(sizeof(t_stack));
@@ -88,11 +100,15 @@ void	append_stack(t_stack **a, char **array)
 		current->nbr = ft_atoi(array[i]);
 		current->next = NULL;
 		if (*a == NULL)
+		{
 			*a = current;
+			current->prev = NULL;
+		}
 		else
 		{
 			last = find_last(*a);
 			last->next = current;
+			current->prev = last;
 		}
 		i++;
 	}

@@ -33,14 +33,14 @@ void	sort_stacks(t_stack **a, t_stack **b)
 		pb(b, a);
 	if (len_a-- > 3 && stack_sorted(*a) == 0)
 		pb(b, a);
-	while (len_a-- > 3 && stack_sorted(*a) == 0) // 6
+	while (len_a-- > 6 && stack_sorted(*a) == 0)
 	{
 		init_nodes_a(*a, *b);
 		move_a_to_b(a, b);
 	}
-	// pb(b, a);
-	// pb(b, a);
-	// pb(b, a);
+	pb(b, a);
+	pb(b, a);
+	pb(b, a);
 	sort_three(a);
 	while (*b)
 	{
@@ -285,8 +285,6 @@ void	check_errors(char **array)
 	char	*str;
     
 	i = 0;
-	if (array == NULL)
-		return ;
 	while (array[i])
 	{
 		if (error_syntax(array[i]) == 1)
@@ -312,7 +310,6 @@ void	check_errors(char **array)
 	}
 }
 
-#include <stdio.h>
 t_stack *argc_two(char **argv)
 {
     t_stack *a;
@@ -322,15 +319,18 @@ t_stack *argc_two(char **argv)
     array = ft_split(argv[1], ' ');
     if (*array == NULL)
     {
-		free(array);
-		ft_error();
-	}
+        free (array);
+        ft_error();
+    }
     check_errors(array);
     append_stack(&a, array);
-	// int i = 0;
-	// while (array[i++])
-	// 	printf("%s\n", array[i]);
-	free_array(array);
+    // int i = 0;
+    // while (array[i])
+    // {
+    //     free(array[i]);
+    //     i++;
+    // }
+    // free(array);
     return (a);
 }
 
@@ -354,7 +354,7 @@ t_stack	*argc_more(int argc, char **argv)
 	array[i] = NULL;
 	check_errors(array);
 	append_stack(&a, array);
-	free(array);
+	// free_array(array);
 	return (a);
 }
 
@@ -364,7 +364,7 @@ t_stack	*ft_process(int argc, char **argv)
 
 	a = NULL;
 	if (argc < 2)
-		exit(1);
+		ft_error();
 	if (argc == 2)
 		a = argc_two(argv);
 	if (argc > 2)
@@ -386,8 +386,11 @@ int	main(int argc, char **argv)
 	t_stack	*a;
 
 	a = ft_process(argc, argv);
+	// print_stack_a(a);
 	if (stack_sorted(a) == 0)
 		ft_sort(&a);
+	// if (stack_sorted(a) == 1)
+	// 	printf("SUCCESS\n");
 	free_stack(&a);
 	return (0);
 }

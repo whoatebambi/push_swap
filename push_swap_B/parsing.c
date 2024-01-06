@@ -188,27 +188,18 @@ int	ft_strcmp(const char *s1, const char *s2)
 
 void	free_array(char **array)
 {
-	// if (array == NULL)
-	// 	free(array);
-	// 	return ;
-	int i = 0;
+	int i;
+
+	i = 0;
+	if (array == NULL)
+	{
+		free(array);  
+		return ;
+	}
 	while (array[i])
 	{
 		free(array[i]);
 		i++;
 	}
-	free(array);
-	// int i;
-	// i = 0;
-	// if (array == NULL || array[i] == NULL)
-	// {
-	// 	free(array);  
-	// 	return ;
-	// }
-	// while (array[i])
-	// {
-	// 	free(array[i]);
-	// 	i++;
-	// }
-	// free(array);    
+	free(array);    
 }

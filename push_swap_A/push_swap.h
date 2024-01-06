@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <limits.h>
-#include <stdbool.h>
+#include <stdbool.h> //
 
 typedef struct s_stack
 {
@@ -27,6 +27,7 @@ typedef struct s_stack
 	bool			cheapest;
 	struct s_stack	*target_node;
 	struct s_stack	*next;
+	struct s_stack	*prev;
 }	t_stack;
 
 // parsing
@@ -82,7 +83,6 @@ void	pb(t_stack **b, t_stack **a);
 // stack_utils
 int		stack_len(t_stack *stack);
 t_stack	*find_last(t_stack *stack);
-t_stack	*find_before_last(t_stack *stack);
 t_stack	*find_max(t_stack *stack);
 t_stack	*find_min(t_stack *stack);
 void	append_node(t_stack **a, int n);

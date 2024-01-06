@@ -72,14 +72,13 @@ t_stack	*find_min(t_stack *stack) //Define a function that searches a stack and 
 	return (min_node); 
 }
 
+
 void	append_stack(t_stack **a, char **array)
 {
 	t_stack	*current;
 	t_stack	*last;
 	int	 i = 0;
 
-	if (a == NULL || array == NULL)
-		return ;
 	while (array[i])
 	{
 		current = malloc(sizeof(t_stack));

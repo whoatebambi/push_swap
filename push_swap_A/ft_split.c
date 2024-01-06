@@ -1,5 +1,4 @@
 #include "push_swap.h"
-#include <stdio.h>
 
 static size_t	fts_wordcount(char const *s, char c)
 {
@@ -68,31 +67,9 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	word = fts_wordcount(s, c);
-	// printf("words: %ld\n", word);
 	result = (char **)malloc((word + 1) * sizeof(char *));
 	if (!result)
 		return (NULL);
 	result = fts_wordsplit(s, c, result, word);
 	return (result);
 }
-
-// int	main(void)
-// {
-// 	char	*str;
-// 	char	**array;
-// 	int		i;
-
-// 	str = " 1 6 4 3";
-// 	i = 0;
-
-// 	array = ft_split(str, ' ');
-// 	while (array[i])
-// 	{
-// 		printf("%s\n", array[i]);
-// 		i++;
-// 	}
-		
-// 	printf("TEST\n");
-
-// 	return (0);
-// }
