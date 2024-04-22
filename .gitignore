@@ -19,9 +19,9 @@
 *.dSYM/
 
 # Directory
-.bigG/
+testers/
 src_old/
-.vscode/
+vscode/
 
 # Custom files
 checker_Mac
