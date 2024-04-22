@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "minitalk.h": "c",
+        "push_swap.h": "c",
+        "array": "c",
+        "get_next_line_bonus.h": "c",
+        "sstream": "c"
+    }
+}
