@@ -1,0 +1,28 @@
+# System files
+.DS_Store
+
+# Object files
+*.o
+
+# Libraries
+*.lib
+*.a
+
+# Executables
+*.out
+*.exe
+
+# Temp files
+*.swp
+
+# Debug files
+*.dSYM/
+
+# Directory
+.bigG/
+src_old/
+.vscode/
+
+# Custom files
+checker_Mac
+error_handling.txt
