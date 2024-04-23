@@ -15,10 +15,10 @@
 int	main(int argc, char **argv)
 {
 	t_stack	*a;
-	// t_stack	*b;
+	t_stack	*b;
 
 	a = NULL;
-	// b = NULL;
+	b = NULL;
 	a = parse_stack(argc, argv);
 	// init_stack(&a);
 	if (check_sorting(a) == 0)
@@ -28,12 +28,14 @@ int	main(int argc, char **argv)
 		else if (stack_len(a) == 3)
 			sort_three(&a);
 		else
-		{
-			printf("len = %d\n", stack_len(a));//sort_stacks(&a, &b);
-			// min_on_top(a);
-		}
+			sort_stacks(&a, &b);
 	}
-	print_stack(a);
+	if (check_sorting(a) == 0)
+		printf("KO\n");
+	else
+		printf("OK\n");
 	free_stack(&a, 1);
+	free_stack(&b, 1);
 	return (0);
 }
+

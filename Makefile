@@ -14,8 +14,8 @@ NAME = push_swap
 BONUS = push_swap_bonus
 
 CC = cc
-# CFLAGS = -g ##-Wall -Wextra -Werror
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -g ##-Wall -Wextra -Werror
+# CFLAGS = -Wall -Wextra -Werror -g3
 
 LIBFT_DIR = libft/
 INC_DIR = inc/
@@ -34,6 +34,16 @@ SRC_NAMES_BONUS = $(SRC_BONUS)
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
 OBJ_BONUS = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC_BONUS:.c=.o)))
+
+
+# # ...
+# TESTERS_DIR = testers/42Barcelona-PushSwap-ProChecker
+
+# $(TESTERS_DIR)/$(NAME): $(OBJ)
+# 	@make -C $(LIBFT_DIR)
+# 	@$(CC) $(CFLAGS) -o $(TESTERS_DIR)/$(NAME) $(OBJ) -L$(LIBFT_DIR) -lft -I$(INC_DIR)
+# 	@echo "\033[0;92m* push_swap file was created in $(TESTERS_DIR) *\033[0m"
+
 
 all: $(NAME)
 

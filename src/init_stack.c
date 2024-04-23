@@ -14,15 +14,6 @@
 
 
 
-
-
-// void	init_stack(t_stack **a)
-// {
-// 	init_index(*a);
-
-// }
-
-
 	// int				nbr;
 	// int				push_cost;
 	// int				index;
