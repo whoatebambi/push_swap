@@ -12,58 +12,35 @@
 
 #include "../inc/push_swap.h"
 
-void	single_argv_to_array(char ***argv)
+void swap(t_stack **stack)
 {
-	*argv = ft_split((*argv)[1], ' ');
-	if (*argv == NULL)
-	{
-		free(*argv);
-		error_and_exit("split failed");
-	}
+	t_stack *first;
+	t_stack *second;
+
+	if (*stack == NULL || (*stack)->next == NULL)
+		return ;
+	first = *stack;
+	second = (*stack)->next;
+	first->next = second->next;
+	second->next = first;
+	*stack = second;
 }
 
-void	append_stack(t_stack **a, char **argv)
+void	sa(t_stack **a)
 {
-	t_stack	*current;
-	t_stack	*last;
-	int	 i;
-	
-	i = 0;
-	while (argv[i])
-	{
-		current = malloc(sizeof(t_stack));
-		if (current == NULL)
-			free_stack(a, 2);
-		current->nbr = ft_atoi(argv[i]);
-		current->next = NULL;
-		if (*a == NULL)
-			*a = current;
-		else
-		{
-			last = find_last(*a);
-			last->next = current;
-		}
-		i++;
-	}
+	swap(a);
+	write (1, "sa\n", 3);
 }
 
-t_stack	*parse_stack(int argc, char **argv)
+void	sb(t_stack **b)
 {
-	t_stack	*a;
-
-	a = NULL;
-	if (argc < 2)
-		error_and_exit("not enough arguments");
-	if (argc == 2)
-		single_argv_to_array(&argv);
-	check_digit(argv);
-	check_int(argv);
-	check_duplicate(argv);
-	append_stack(&a, argv);
-	int	i = 0;
-	while (argv[i])
-		free(argv[i++]);
-	free(argv);
-	return (a);
+	swap(b);
+	write (1, "sb\n", 3);
 }
 
+void	ss(t_stack **a, t_stack **b)
+{
+	swap(a);
+	swap(b);
+	write (1, "ss\n", 3);
+}

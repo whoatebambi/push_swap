@@ -12,58 +12,43 @@
 
 #include "../inc/push_swap.h"
 
-void	single_argv_to_array(char ***argv)
+void	rev_rotate_both(t_stack **a, t_stack **b, t_stack *cheapest_node)
 {
-	*argv = ft_split((*argv)[1], ' ');
-	if (*argv == NULL)
-	{
-		free(*argv);
-		error_and_exit("split failed");
-	}
+	while (*b != cheapest_node->target && *a != cheapest_node) //As long as the current `b` node is not `a` cheapest node's target node && and the current `a` node is not the cheapest
+		rrr(a, b);
+	current_index(*a);
+	current_index(*b);
 }
 
-void	append_stack(t_stack **a, char **argv)
+void	rev_rotate(t_stack **stack)
 {
-	t_stack	*current;
-	t_stack	*last;
-	int	 i;
-	
-	i = 0;
-	while (argv[i])
-	{
-		current = malloc(sizeof(t_stack));
-		if (current == NULL)
-			free_stack(a, 2);
-		current->nbr = ft_atoi(argv[i]);
-		current->next = NULL;
-		if (*a == NULL)
-			*a = current;
-		else
-		{
-			last = find_last(*a);
-			last->next = current;
-		}
-		i++;
-	}
+	t_stack *last;
+	t_stack *last_before;
+
+	if (*stack == NULL || (*stack)->next == NULL)
+		return ;
+	last = find_last(*stack);
+	last_before = find_before_last(*stack);
+	last_before->next = NULL;
+	last->next = *stack;
+	*stack = last; 
 }
 
-t_stack	*parse_stack(int argc, char **argv)
+void	rra(t_stack **a)
 {
-	t_stack	*a;
-
-	a = NULL;
-	if (argc < 2)
-		error_and_exit("not enough arguments");
-	if (argc == 2)
-		single_argv_to_array(&argv);
-	check_digit(argv);
-	check_int(argv);
-	check_duplicate(argv);
-	append_stack(&a, argv);
-	int	i = 0;
-	while (argv[i])
-		free(argv[i++]);
-	free(argv);
-	return (a);
+	rev_rotate(a);
+	write (1, "rra\n", 4);
 }
 
+void	rrb(t_stack **b)
+{
+	rev_rotate(b);
+	write (1, "rrb\n", 4);
+}
+
+void	rrr(t_stack **a, t_stack **b)
+{
+	rev_rotate(a);
+	rev_rotate(b);
+	write (1, "rrr\n", 4);
+}

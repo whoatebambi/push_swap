@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_stack.c                                       :+:      :+:    :+:   */
+/*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcouserg <fcouserg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,21 +12,41 @@
 
 #include "../inc/push_swap.h"
 
+void	rotate_both(t_stack **a, t_stack **b, t_stack *cheapest_node)
+{
+	while (*b != cheapest_node->target && *a != cheapest_node) //As long as the current `b` node is not `a` cheapest node's target node, and the current top `a` node is not the top node
+		rr(a, b);
+	current_index(*a);
+	current_index(*b);
+}
 
+void	rotate(t_stack **stack)
+{
+	t_stack *last;
 
-	// int				nbr;
-	// int				push_cost;
-	// int				index;
-	// bool			above_median;
-	// bool			cheapest;
-	// struct s_stack	*target_node;
-	// struct s_stack	*next;
+	if (*stack == NULL || (*stack)->next == NULL)
+		return ;
+	last = find_last(*stack);
+	last->next = *stack;
+	*stack = (*stack)->next;
+	last->next->next = NULL;
+}
 
-// void	init_nodes_a(t_stack *a, t_stack *b)
-// {
-// 	current_index(a);
-// 	current_index(b);
-// 	set_target_a(a, b);
-// 	cost_analysis_a(a, b);
-// 	set_cheapest(a);
-// }
+void	ra(t_stack **a)
+{
+	rotate(a);
+	write (1, "ra\n", 3);
+}
+
+void	rb(t_stack **b)
+{
+	rotate(b);
+	write (1, "rb\n", 3);
+}
+
+void	rr(t_stack **a, t_stack **b)
+{
+	rotate(a);
+	rotate(b);
+	write (1, "rr\n", 3);
+}

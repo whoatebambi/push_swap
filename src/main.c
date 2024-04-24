@@ -20,7 +20,6 @@ int	main(int argc, char **argv)
 	a = NULL;
 	b = NULL;
 	a = parse_stack(argc, argv);
-	// init_stack(&a);
 	if (check_sorting(a) == 0)
 	{
 		if (stack_len(a) == 2)
@@ -30,10 +29,10 @@ int	main(int argc, char **argv)
 		else
 			sort_stacks(&a, &b);
 	}
-	if (check_sorting(a) == 0)
-		printf("KO\n");
-	else
-		printf("OK\n");
+	// if (check_sorting(a) == 0)
+	// 	printf("KO\n");
+	// else
+	// 	printf("OK\n");
 	free_stack(&a, 1);
 	free_stack(&b, 1);
 	return (0);

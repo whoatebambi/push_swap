@@ -12,58 +12,36 @@
 
 #include "../inc/push_swap.h"
 
-void	single_argv_to_array(char ***argv)
+void	init_stack_b(t_stack *a, t_stack *b)
 {
-	*argv = ft_split((*argv)[1], ' ');
-	if (*argv == NULL)
-	{
-		free(*argv);
-		error_and_exit("split failed");
-	}
+	current_index(a);
+	current_index(b);
+	set_target_b(a, b);
 }
 
-void	append_stack(t_stack **a, char **argv)
+void	set_target_b(t_stack *a, t_stack *b)
 {
-	t_stack	*current;
-	t_stack	*last;
-	int	 i;
-	
-	i = 0;
-	while (argv[i])
+	t_stack	*current_a;
+	t_stack	*target;
+	long	closest_sup_nb_of_a;
+
+	while (b != NULL)
 	{
-		current = malloc(sizeof(t_stack));
-		if (current == NULL)
-			free_stack(a, 2);
-		current->nbr = ft_atoi(argv[i]);
-		current->next = NULL;
-		if (*a == NULL)
-			*a = current;
-		else
+		current_a = a;
+		closest_sup_nb_of_a = LONG_MAX;
+		while (current_a != NULL)
 		{
-			last = find_last(*a);
-			last->next = current;
+			if (current_a->nbr > b->nbr && current_a->nbr < closest_sup_nb_of_a)
+			{
+				closest_sup_nb_of_a = current_a->nbr;
+				target = current_a;
+			}
+			current_a = current_a->next;
 		}
-		i++;
+		if (closest_sup_nb_of_a == LONG_MAX)
+			b->target = find_min(a);
+		else
+			b->target = target;
+		b = b->next;
 	}
 }
-
-t_stack	*parse_stack(int argc, char **argv)
-{
-	t_stack	*a;
-
-	a = NULL;
-	if (argc < 2)
-		error_and_exit("not enough arguments");
-	if (argc == 2)
-		single_argv_to_array(&argv);
-	check_digit(argv);
-	check_int(argv);
-	check_duplicate(argv);
-	append_stack(&a, argv);
-	int	i = 0;
-	while (argv[i])
-		free(argv[i++]);
-	free(argv);
-	return (a);
-}
-

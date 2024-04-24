@@ -23,7 +23,7 @@ SRC_DIR = src/
 SRC_BONUS_DIR = src_bonus/
 OBJ_DIR = obj/
 
-SRC = main.c parsing.c lst_utils.c init_stack.c commands.c sorting.c
+SRC = main.c  parsing_error_handling.c parsing.c lst_utils.c sorting.c sorting_init_a.c sorting_init_b.c sorting_push.c commands_swap.c commands_rotate.c commands_rev_rotate.c commands_push.c
 # SRC = commands.c ft_split.c parsing.c push_swap.c stack_utils.c
 SRC_BONUS = commands_bonus.c ft_split_bonus.c parsing_bonus.c push_swap_bonus.c stack_utils_bonus.c
 # SRC = $(SRC_DIR)/commands.c $(SRC_DIR)/ft_split.c $(SRC_DIR)/parsing.c $(SRC_DIR)/push_swap.c $(SRC_DIR)/stack_utils.c

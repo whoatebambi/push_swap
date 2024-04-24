@@ -72,27 +72,6 @@ t_stack	*find_before_last(t_stack *stack)
 	return (stack);
 }
 
-void	free_stack(t_stack **stack, int std_value)
-{
-	t_stack	*current;
-	t_stack	*tmp;
-
-	if (!stack)
-		return;
-	current = *stack;
-	while (current)
-	{
-		tmp = current->next;
-		current->nbr = 0;
-		free(current);
-		current = tmp;
-	}
-	*stack = NULL;
-	if (std_value == 1)
-		return ;
-	error_and_exit("stack freed");
-}
-
 int	stack_len(t_stack *stack)
 {
 	int	i;
@@ -106,22 +85,4 @@ int	stack_len(t_stack *stack)
 	return (i);
 }
 
-void	print_stack(t_stack *a)
-{
-	while (a != NULL)
-	{
-		printf("%d\n", a->nbr);
-		a = a->next;
-	}
-}
 
-void	min_on_top(t_stack **a) //Define a function that moves the smallest number to the top
-{
-	while ((*a)->nbr != find_min(*a)->nbr) //As long as the smallest number is not at the top
-	{
-		if (find_min(*a)->above_median) //Rotate or reverse rotate according to the position of the node on the median
-			ra(a);
-		else
-			rra(a);
-	}
-}
